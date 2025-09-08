@@ -1,2 +1,2 @@
 # golang-library-project
-First Golang Project
+First Golang Backend Project
