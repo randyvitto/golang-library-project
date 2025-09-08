@@ -16,10 +16,6 @@ type BookService struct {
 	bookStockRepository domain.BookStockRepository
 }
 
-// Create implements domain.BookService.
-
-// Delete implements domain.BookService.
-
 func NewBook(bookRepository domain.BookRepository,
 	bookStockRepository domain.BookStockRepository) domain.BookService {
 	return &BookService{

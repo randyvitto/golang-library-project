@@ -5,6 +5,7 @@ import (
 	"belajar-golang-rest-api/lat/dto"
 	"context"
 	"database/sql"
+	"errors"
 	"time"
 
 	"github.com/google/uuid"
@@ -84,6 +85,7 @@ func (j *JournalService) Index(ctx context.Context, se domain.JournalSearch) ([]
 					BookStock: v.StockCode,
 					Book: book,
 					Customer: customer,
+					Status: v.Status,
 					BorrowedAt : v.BorrowedAt.Time,
 					ReturnedAt : v.ReturnedAt.Time,
 				})
@@ -107,6 +109,9 @@ func (j *JournalService) Create(ctx context.Context, req dto.CreateJournalReques
 	if stock.Code == "" {
 		return domain.BookNotFound
 	}
+	if stock.Status != domain.BookStockStatusAvailable{
+		return errors.New("stock already borrowed")
+	}
 
 	journal := domain.Journal{
 		Id : uuid.NewString(),
@@ -123,7 +128,7 @@ func (j *JournalService) Create(ctx context.Context, req dto.CreateJournalReques
 	stock.Status = domain.BookStockStatusBorrowed
 	stock.BorrowedAt = journal.BorrowedAt
 	stock.BorrowerId = sql.NullString{Valid: true, String: journal.CustomerId} 
-	return j.bookStockRepository.Save(ctx, []domain.BookStock{stock})
+	return j.bookStockRepository.Update(ctx, &stock)
 
 }
 
@@ -147,7 +152,7 @@ func (j *JournalService) Return(ctx context.Context, req dto.ReturnJournalReques
 		stock.Status = domain.BookStockStatusAvailable
 		stock.BorrowerId = sql.NullString{Valid: false}
 		stock.BorrowedAt= sql.NullTime{Valid: false}
-		err = j.bookStockRepository.Save(ctx, []domain.BookStock{stock})
+		err = j.bookStockRepository.Update(ctx, &stock)
 		if err != nil{
 			return err
 		}

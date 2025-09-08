@@ -37,14 +37,14 @@ func (j *JournalRepository) Find(ctx context.Context, se domain.JournalSearch) (
 
 // FindById implements domain.JournalRepository.
 func (j *JournalRepository) FindById(ctx context.Context, id string) (result domain.Journal, err error) {
-	dataset := j.db.From("journals").Where(goqu.C("id").Eq("id"))
-	_, err = dataset.ScanStructContext(ctx, result)
+	dataset := j.db.From("journals").Where(goqu.C("id").Eq(id))
+	_, err = dataset.ScanStructContext(ctx, &result)
 	return
 }
 
 // Save implements domain.JournalRepository.
 func (j *JournalRepository) Save(ctx context.Context, journal *domain.Journal) error {
-	executor := j.db.Insert("journals").Executor()
+	executor := j.db.Insert("journals").Rows(journal).Executor()
 	_, err := executor.ExecContext(ctx)
 	return err
 }
