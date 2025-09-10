@@ -28,6 +28,7 @@ func NewMedia(app *fiber.App,
 		mediaService: mediaService,
 	}
 
+
 	app.Post("/media",authzMidd, ma.Create)
 	app.Static("/media", cnf.Storage.BasePath)
 }

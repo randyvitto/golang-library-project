@@ -22,9 +22,10 @@ authzMidd fiber.Handler) {
 	bsa := bookStockApi{
 		bookStockService: bookStockService,
 	}
-
-	app.Post("/book-stocks", authzMidd, bsa.Create)
-	app.Delete("/book-stocks", authzMidd, bsa.Delete)
+	bookStock := app.Group("/book-stocks", authzMidd)
+	
+	bookStock.Post("",  bsa.Create)
+	bookStock.Delete("",  bsa.Delete)
 }
 
 func (ba bookStockApi) Create(ctx *fiber.Ctx) error{

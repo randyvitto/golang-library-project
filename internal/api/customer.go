@@ -21,12 +21,13 @@ func NewCustomer(app *fiber.App,
 	ca := customerApi{
 		customerService: customerService,
 	}
+	customer := app.Group("/customers", authzMidd)
 
-	app.Get("/customers/", authzMidd, ca.index)
-	app.Get("/customers/:id", authzMidd, ca.Show)
-	app.Post("/customers", authzMidd, ca.Create)
-	app.Put("/customers/:id", authzMidd, ca.Update)
-	app.Delete("/customers/:id", authzMidd, ca.Delete)
+	customer.Get("",  ca.index)
+	customer.Get("id",  ca.Show)
+	customer.Post("",  ca.Create)
+	customer.Put("id",  ca.Update)
+	customer.Delete("id",  ca.Delete)
 }	
 
 func (ca customerApi) index(ctx *fiber.Ctx) error {
