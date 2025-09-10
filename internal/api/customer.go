@@ -39,7 +39,7 @@ func (ca customerApi) index(ctx *fiber.Ctx) error {
 			JSON(dto.CreateResponseError(err.Error()))
 	}
 
-	return ctx.JSON(dto.CreateResponseSuccess(res))
+	return ctx.JSON(res)
 }
 
 
@@ -61,8 +61,7 @@ func (ca customerApi) Create(ctx *fiber.Ctx) error{
 		return ctx.Status(http.StatusInternalServerError).
 		JSON(dto.CreateResponseError(err.Error()))
 	}
-	return ctx.Status(http.StatusCreated).
-	JSON(dto.CreateResponseSuccess(""))
+	return ctx.SendStatus(http.StatusCreated)
 }
 
 func (ca customerApi) Update(ctx *fiber.Ctx) error{
@@ -84,8 +83,7 @@ func (ca customerApi) Update(ctx *fiber.Ctx) error{
 		return ctx.Status(http.StatusInternalServerError).
 		JSON(dto.CreateResponseError(err.Error()))
 	}
-	return ctx.Status(http.StatusOK).
-	JSON(dto.CreateResponseSuccess(""))
+	return ctx.SendStatus(http.StatusOK)
 }
 
 func(ca customerApi) Delete(ctx *fiber.Ctx) error{
@@ -112,5 +110,5 @@ func(ca customerApi) Show(ctx *fiber.Ctx) error {
 		JSON(dto.CreateResponseError(err.Error()))
 	}
 	return ctx.Status(http.StatusOK).
-	JSON(dto.CreateResponseSuccess(data))
+	JSON(data)
 }

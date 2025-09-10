@@ -4,6 +4,7 @@ type BookData struct {
 	Id          string `json:"id"`
 	Isbn        string `json:"isbn"`
 	Title       string `json:"title"`
+	CoverUrl    string `json:"cover_url"`
 	Description string `json:"description"`
 }
 
@@ -21,6 +22,7 @@ type CreateBookRequest struct {
 	Isbn        string `json:"isbn" validate:"required"`
 	Title       string `json:"title" validate:"required"`
 	Description string `json:"description" validate:"required"`
+	CoverId     string `json:"cover_id"`
 }
 
 type UpdateBookRequest struct {
@@ -28,4 +30,5 @@ type UpdateBookRequest struct {
 	Isbn        string `json:"isbn" validate:"required"`
 	Title       string `json:"title" validate:"required"`
 	Description string `json:"description" validate:"required"`
+	CoverId     string `json:"cover_id"`
 }

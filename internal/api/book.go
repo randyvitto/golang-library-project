@@ -22,12 +22,13 @@ func NewBook(app *fiber.App,
 		ba := bookApi{
 			bookService: bookService,
 		}
+		book := app.Group("/books" ,authzMidd)
 
-		app.Get("/books", authzMidd, ba.Index)
-		app.Post("/books" ,authzMidd, ba.Create)
-		app.Get("/books/:id", authzMidd, ba.Show)
-		app.Put("/books/:id", authzMidd, ba.Update)
-		app.Delete("/books/:id", authzMidd, ba.Delete )
+		book.Get("",  ba.Index)
+		book.Post("" , ba.Create)
+		book.Get(":id",  ba.Show)
+		book.Put(":id",  ba.Update)
+		book.Delete(":id",  ba.Delete )
 }
 
 func (ba bookApi) Index(ctx *fiber.Ctx) error{
@@ -39,7 +40,7 @@ func (ba bookApi) Index(ctx *fiber.Ctx) error{
 		return ctx.Status(http.StatusInternalServerError).
 		JSON(dto.CreateResponseError(err.Error()))
 	}
-	return ctx.JSON(dto.CreateResponseSuccess(res))
+	return ctx.JSON(res)
 }
 
 func (ba bookApi) Create(ctx *fiber.Ctx) error {
@@ -63,8 +64,7 @@ func (ba bookApi) Create(ctx *fiber.Ctx) error {
 		JSON(dto.CreateResponseError(err.Error()))
 		
 	}
-	return ctx.Status(http.StatusOK).
-	JSON(dto.CreateResponseSuccess(""))
+	return ctx.SendStatus(http.StatusOK)
 }
 
 func (ba bookApi) Show(ctx *fiber.Ctx) error {
@@ -78,7 +78,7 @@ func (ba bookApi) Show(ctx *fiber.Ctx) error {
 		return ctx.Status(http.StatusInternalServerError).
 		JSON(dto.CreateResponseError(err.Error()))
 	}
-	return ctx.JSON(dto.CreateResponseSuccess(res))
+	return ctx.JSON(res)
 }
 
 func (ba bookApi) Update(ctx *fiber.Ctx) error {
@@ -98,7 +98,7 @@ func (ba bookApi) Update(ctx *fiber.Ctx) error {
 		return ctx.Status(http.StatusInternalServerError).
 		JSON(dto.CreateResponseError(err.Error()))
 	}
-	return ctx.JSON(dto.CreateResponseSuccess(""))
+	return ctx.SendStatus(http.StatusOK)
 
 }
 
@@ -113,6 +113,6 @@ func (ba bookApi) Delete(ctx *fiber.Ctx) error {
 		return ctx.Status(http.StatusInternalServerError).
 		JSON(dto.CreateResponseError(err.Error()))
 	}
-	return ctx.JSON(dto.CreateResponseSuccess(""))
+	return ctx.SendStatus(http.StatusNoContent)
 
 }

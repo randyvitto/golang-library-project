@@ -43,7 +43,7 @@ func (ja journalApi) Index(ctx *fiber.Ctx) error{
 		JSON(dto.CreateResponseError(err.Error()))
 	}
 	return ctx.Status(http.StatusOK).
-	JSON(dto.CreateResponseSuccess(res))
+	JSON(res)
 }
 
 func (ja journalApi) Create(ctx *fiber.Ctx) error{
@@ -67,8 +67,7 @@ func (ja journalApi) Create(ctx *fiber.Ctx) error{
 		return ctx.Status(http.StatusInternalServerError).
 		JSON(dto.CreateResponseError(err.Error()))
 	}
-	return ctx.Status(http.StatusCreated).
-	JSON(dto.CreateResponseSuccess(""))
+	return ctx.SendStatus(http.StatusCreated)
 }
 
 func (ja journalApi) Update(ctx *fiber.Ctx) error{
@@ -84,6 +83,5 @@ func (ja journalApi) Update(ctx *fiber.Ctx) error{
 		return ctx.Status(http.StatusInternalServerError).
 		JSON(dto.CreateResponseError(err.Error()))
 	}
-	return ctx.Status(http.StatusCreated).
-	JSON(dto.CreateResponseSuccess(""))
+	return ctx.SendStatus(http.StatusCreated)
 }

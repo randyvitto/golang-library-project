@@ -45,8 +45,7 @@ func (ba bookStockApi) Create(ctx *fiber.Ctx) error{
 		return ctx.Status(http.StatusInternalServerError).
 		JSON(dto.CreateResponseError(err.Error()))
 	}
-	return ctx.Status(http.StatusCreated).
-	JSON(dto.CreateResponseSuccess(""))
+	return ctx.SendStatus(http.StatusCreated)
 }
 
 func (ba bookStockApi) Delete(ctx *fiber.Ctx) error {
