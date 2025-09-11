@@ -34,6 +34,7 @@ func main() {
 	bookStockRepository := repository.NewBookStock(dbConnection)
 	journalRepository := repository.NewJournal(dbConnection)
 	mediaRepository := repository.NewMedia(dbConnection)
+	chargeRepository := repository.NewCharge(dbConnection)
 
 	customerService := service.NewCustomer(customerRepository)
 	authService := service.NewAuth(cnf, 
@@ -45,7 +46,8 @@ func main() {
 	journalservice := service.NewJournal(journalRepository,
 	bookRepository,
 	bookStockRepository,
-	customerRepository)
+	customerRepository,
+	chargeRepository)
 	mediaService := service.NewMedia(cnf,
 	mediaRepository)
 

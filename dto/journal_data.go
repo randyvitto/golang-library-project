@@ -13,11 +13,12 @@ type JournalData struct {
 }
 
 type CreateJournalRequest struct {
-	BookId string `json:"book_id" validate:"required"`
-	BookStock string `json:"book_stock" validate:"required"`
+	BookId     string `json:"book_id" validate:"required"`
+	BookStock  string `json:"book_stock" validate:"required"`
 	CustomerId string `json:"customer_id" validate:"required"`
 }
 
 type ReturnJournalRequest struct {
 	JournalId string `json:"journal_id"`
+	UserId    string `json:"-"`
 }
